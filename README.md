@@ -1,2 +1,2 @@
 # Everlasting_Web
-Project about build a web application from nothing
+This is the project for Everlasting Wardrobe! Hope we guys could build this website successfully and learn from this.
