@@ -3,5 +3,5 @@ This is the project for Everlasting Wardrobe! Hope we guys could build this webs
 
 Because our web site is based on Ruby on Rails, so I find a tutorial about that. 
 ```sh
-https://
+https://www.tutorialspoint.com/ruby-on-rails/rails-examples.htm
 ```
