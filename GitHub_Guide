@@ -1,0 +1,18 @@
+# Some basic commands that we always use in linux!!
+git clone https://github.com/XXXXXX   // download repository from github
+
+git init //initialize the directory, which makes the file untrack.
+
+git remote add origin git@github.com:yourName/yourRepo.git”    // make a remote connection to github
+
+git add . // automatically detect and add untrack file
+
+git add finename
+
+git add -A //add all files
+
+git commit -m "your commit" // when you want to add file to github, you must do this
+
+git push origin master // update your file from local to github
+
+git pull // update your local repository
