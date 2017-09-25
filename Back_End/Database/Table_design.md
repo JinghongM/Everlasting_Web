@@ -2,8 +2,8 @@
 In order to shchedule our tasts, Here is a list about what we are gonna to do:
 1, Scenario: In what case, what servers should provide to our customers
 2. Necessary: what info, what resource we need for those servers.
-3. Application: How to design algorithm to implement those server using our resource
-4. Data: How should our data be stored to increase the working efficiency
+3. Application: How to design algorithm to implement those server by our resource
+4. Data: How should us store our data to increase the working efficiency
 
 
 ##  Scenario, Necessary, application
