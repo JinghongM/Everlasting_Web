@@ -1,5 +1,5 @@
 # Task lists:
-In order to shchedule our tasts, Here is a list about what we are gonna to do:
+In order to shchedule our tasts, Here is a list about the process to design a web app:
 1, Scenario: In what case, what servers should provide to our customers
 2. Necessary: what info, what resource we need for those servers.
 3. Application: How to design algorithm to implement those server by our resource
