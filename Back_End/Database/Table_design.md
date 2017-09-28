@@ -74,37 +74,37 @@ Size convertor:
 
 1. Primary Table
 Columns: 
-Gender, Unique height, General height, brand, type, 
+Gender, brand_size, actual_height, brand, type, 
 
 2. Boy Top (long sleeve):
 Columns:
-Unique height, General height, brand, Weight, Chest, Sleeve, Price, Organic, Made_in_USA,
+brand_size, actual_height, brand, Weight, Chest, Sleeve, Price, Organic, Made_in_USA,
 
 3. Boy Top (short)
 Columns:
-Unique height, General height, brand, Weight, Chest, Sleeve, Price, Organic, Made_in_USA
+brand_size, actual_height, brand, Weight, Chest, Sleeve, Price, Organic, Made_in_USA
 
 3. Boy Bottom(pants)
 Columns:
-brand, Unique height, General height, Crotch, Waist, Hip, Instream, Ajustable, weight, Price, Organic, Made_in_USA
+brand, brand_size, actual_height, Crotch, Waist, Hip, Instream, Ajustable, weight, Price, Organic, Made_in_USA
 
 4. Boy Bottom(short)
 Columns:
-Brand, Unique height, General height, Waist, Hip, Inseam, Ajustable, weight, Price, Organic, Made_in_USA
+Brand, brand_size, actual_height, Waist, Hip, Inseam, Ajustable, weight, Price, Organic, Made_in_USA
 
 5. Girl Top (long)
-Brand, Unique height, General height, weight, Chest, sleeve, sweep, Price, Organic, Made_in_USA
+Brand, brand_size, actual_height, weight, Chest, sleeve, sweep, Price, Organic, Made_in_USA
 
 6. Girl Top (Short)
-Brand, Unique height, General height, weight, Chest, Sleeve, Sweep, Price, Organic, Made_in_USA
+Brand, brand_size, actual_height, weight, Chest, Sleeve, Sweep, Price, Organic, Made_in_USA
 
 7. Girl Bottom (long)
-Brand, Unique height, General height, weight, Waist, hip, Inseam, Ajustable, Price, Organic, Made_in_USA
+Brand, brand_size, actual_height, weight, Waist, hip, Inseam, Ajustable, Price, Organic, Made_in_USA
 
 8. Girl Bottom (short)
-Brand, Unique height, General height, weight, Waist, hip, Inseam, Ajustable, Price, Organic, Made_in_USA
+Brand, brand_size, actual_height, weight, Waist, hip, Inseam, Ajustable, Price, Organic, Made_in_USA
 
 9. Girl Dress
-Hollow to floor, Bust, Waist, Hips, Sleeve, inseam, Brand, Unique height, General height, weight, Price, Organic, Made_in_USA
+Hollow to floor, Bust, Waist, Hips, Sleeve, inseam, Brand, brand_size, actual_height, weight, Price, Organic, Made_in_USA
 
 
