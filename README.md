@@ -5,11 +5,11 @@ Here is some ideas about how to design a good app. (If you guys heard about syst
 
 ---------------------------
 
-In our project, we designed tables in our database based on potential service. However, the data in databases should be well-structured data, but the data now we have is not suitable for using directly. Thus, after that, we could start to work on preparing data for database by [processing the raw data](#Processing data).
+In our project, we designed tables in our database based on potential service. However, the data in databases should be well-structured data, but the data now we have is not suitable for using directly. Thus, after that, we could start to work on preparing data for database by [Processing data](#Processing data).
 
-After that, we could work on design some algorithm used for [getting data from data base](#Build SQL queries).
+After that, we could work on design some algorithm used for [Build SQL queries](#Build SQL queries).
 
-For guys just start our project, there is [some resource](#Start our project).
+For guys just start our project, there is [Start our project](#Start our project).
 
 -----------------------------
 
