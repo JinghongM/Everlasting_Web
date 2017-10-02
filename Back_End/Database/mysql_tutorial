@@ -1,0 +1,24 @@
+installation on Ubuntu:
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install mysql-server 
+#set password for 'root'user
+
+Log in MySQL as the root user:
+mysql -u root -p
+#type in the password just set
+
+Create database as root:
+create database 'testdb'
+#'testdb' is the database name;
+
+create user and assign database permissions:
+grant all on testdb.* to 'testuser' identified by 'password'
+#'testuser' is the new username and 'password' is the user password;
+
+create table:
+use testdb;
+#switch to any schema that you want
+
+create table customers (customer_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, first_name TEXT, last_name TEXT);
+#create a table called customers with customer_id as primary key, first_name and last_name;
