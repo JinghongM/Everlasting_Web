@@ -71,3 +71,5 @@ Done installing documentation for mysql2 after 0 seconds
 ```sh
 rails new server -d mysql
 ```
+# A good tutorial Web
+http://codepany.com/blog/rails-5-how-to-create-ruby-on-rails-project-mysql-git/
