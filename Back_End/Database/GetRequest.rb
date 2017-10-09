@@ -1,4 +1,6 @@
 #!/usr/bin/ruby -w
+require 'logger'
+
 class Request
 	
 	@@select="Select "
@@ -16,6 +18,34 @@ class Request
 	    @gender=gender
 	    @searchSize=searchSize
 	    @typeTable=@gender+@type
+	    setLogger()
+	end
+	def setLogger()
+	    if File.exist? File.expand_path "./log.txt"
+	    logFile = File.open('log.txt', 'a')
+	    puts "txt exists"
+	    else
+	    logFile = File.open('log.txt','w')
+	    puts "txt not exists, create a new log file instead"
+	    end
+
+
+	    log = Logger.new(logFile)
+	    logInfo = "A request inputs:" 
+	    if @knownBrand != nil 
+	    logInfo += ' known Brand: ' + @knownBrand
+	    end
+	    if @searchBrand != nil
+	    logInfo += ' search Brand: ' + @searchBrand
+	    end	 
+
+	    logInfo += ' search type: ' + @type + ' gender: ' + @gender 
+	       
+	    if @searchSize != nil
+	    logInfo += ' search size: ' + @searchSize
+	    end
+	    log.info(logInfo)   
+	    logFile.close()
 	end
 	
 	def getBrandSize()
