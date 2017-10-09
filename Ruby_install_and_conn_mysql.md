@@ -71,3 +71,11 @@ Done installing documentation for mysql2 after 0 seconds
 ```sh
 rails new server -d mysql
 ```
+## create an easy database model by scaffold on rails
+```sh
+rails generate scaffold Brands Brand_Name:string Boy_Size:string Girl_Size:string Boy_Height:string Girl_Height:string Boy_Actual_Height:float Girl_Actual_Height:float Type:string
+```
+## update the database
+```sh
+rake db:migrate
+```
