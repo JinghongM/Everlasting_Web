@@ -16,3 +16,8 @@ git commit -m "your commit" // when you want to add file to github, you must do 
 git push origin master // update your file from local to github
 
 git pull // update your local repository
+
+git branch
+
+git branch DustinZH
+
