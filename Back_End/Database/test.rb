@@ -1,14 +1,16 @@
 #!/usr/bin/ruby -w
 load 'GetRequest.rb'
+
 BEGIN{
 	print <<"EOF"
 Start
 EOF
 require 'logger'
-file=File.open('log.txt',"w")
+file=File.open('log.txt',"w") #open a new txt file and erase all old contents
 $log=Logger.new(file)
-$log.level=Logger::INFO
+$log.level=Logger::INFO  #Chaange logger level to show
 $log.info "Test begins"
+file.close()
 }
 #Test begins
 
@@ -67,11 +69,14 @@ while TRUE #main loop, type end to end
 cust1=Request.new(knownBrand = knownBrand,type = type,gender = gender,searchSize = searchSize,searchBrand = searchBrand)
 result1 = cust1.getBrandSize() 
 puts result1
+end
 
 END{
 	print <<"EOF"
 End
 EOF
+file=File.open('log.txt','a')
+$log=Logger.new(file)
 $log.info "Test ends"
-}
-#Test ends
+file.close()
+}#Test ends
