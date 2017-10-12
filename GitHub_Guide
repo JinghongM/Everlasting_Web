@@ -17,6 +17,8 @@ git push origin master // update your file from local to github
 
 git pull // update your local repository
 
+git checkout -b modify-README //创建新分支
+
 git branch
 
 git branch DustinZH
