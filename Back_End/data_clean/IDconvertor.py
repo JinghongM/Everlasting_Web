@@ -16,33 +16,34 @@ def IDconvertor(Clothing_Genome_Project,Item_ID_Info):
         raise ImgException(Clothing_Genome_Project + ' not found')
     if(os.path.isfile(Item_ID_Info) == False):
         raise ImgException(Item_ID_Info + ' not found')
-    def findIDs(SearchWords,Genus_Species):   
-        for word in SearchKeyWords:        
-            for GenusID,species in Genus_Species.items():
-                if word in species:
-                    return GenusID,species[word]
-                
+    def findIDs(SearchWords,Genus_Species):
+        for GenusID,Species in Genus_Species.items():
+            for SpeciesName,SpeciesID in Species.items():
+                if any(word in SpeciesName for word in SearchWords):
+                    return GenusID,SpeciesID
         return -1,-1
-    Quantity=9
-    EWNumber = 0
-    GenusColumn=3
-    SpeciesColumn=4
-    StyleGenreIDStartColumn = 6
-    StyleGenreIDENDColumn = 9
-    GenreColumnStart = 12
-    GenreColumnEnd = 18
+
+    Quantity=9 #main table column
+    EWNumber = 0 #main table column
+    GenusColumn=3 #main table column
+    SpeciesColumn=4 #main table column
+    StyleGenreIDStartColumn = 6 #ID table column
+    StyleGenreIDENDColumn = 9 #ID table column
+    GenreColumnStart = 12 #ID table column
+    GenreColumnEnd = 18 #ID table column
     IInfo = pd.read_excel(Item_ID_Info)
     CGP = pd.read_excel(Clothing_Genome_Project)
     Genus_Species={} # this is a dictionary which key is Stype Genre Genus ID, value is the Special ID
     Genres = {}
-    for column in range(StyleGenreIDStartColumn,StyleGenreIDENDColumn+1):
+    for column in range(StyleGenreIDStartColumn,StyleGenreIDENDColumn+1): #store Genus ID into Genus_Species dictionary and create a entry
+                                                                          #which is general genus name
         GenusBlock = IInfo.iat[0,column]
         GenusName = GenusBlock[:GenusBlock.find("=")]
         GenusID = int(GenusBlock[GenusBlock.find("=")+1:])
         Genus_Species[GenusID] = {}
         Genus_Species[GenusID][GenusName] = GenusID 
     
-    for column in range(0,len(Genus_Species)):
+    for column in range(0,len(Genus_Species)): #store all specific genus into Genus_Species
         for row in range(1,IInfo.shape[0]):
             if str(IInfo.iat[row,StyleGenreIDStartColumn+column]) =='nan':
                 break
@@ -59,13 +60,19 @@ def IDconvertor(Clothing_Genome_Project,Item_ID_Info):
         if str(Species)=="nan" and str(Genus) == "nan":
             print("No Genus or Species at " + str(row))
             continue
-        else:
-            SearchKeyWords.append(str(Genus))
-            GenusWords=Genus.split(" ")
-            for word in GenusWords:
-                SearchKeyWords.append(str(word))
-            if str(Species) !='nan':
-                SearchKeyWords.append(str(Species))
+        else: #separate all genus and species words and store into a SearchKeyWords list
+            
+            if str(Species) != 'nan':
+                SpeciesWords = Species.split(" ")
+                SearchKeyWords.append(Species)
+                for word in SpeciesWords:
+                    SearchKeyWords.append(word)
+            if str(Genus) != 'nan':
+                GenusWords = Genus.split(" ")
+                SearchKeyWords.append(Genus)
+                for word in GenusWords:
+                    SearchKeyWords.append(word)
+            print(SearchKeyWords)
             GenusID, SpeciesID = findIDs(SearchKeyWords,Genus_Species)
         if GenusID == -1 and SpeciesID == -1:
             continue
@@ -121,3 +128,4 @@ def IDconvertor(Clothing_Genome_Project,Item_ID_Info):
             CGP.columns.values[i] = ''
         i+=1
     CGP.to_csv('test.csv',index=False)          
+IDconvertor('Realdata.xlsx','Item ID Info.xlsx')
