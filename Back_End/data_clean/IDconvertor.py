@@ -7,7 +7,7 @@ Created on Mon Oct 30 14:35:27 2017
 import pandas as pd
 import copy
 import os.path
-
+from fuzzywuzzy import fuzz
 class ImgException(Exception):
     def __init__(self, msg='No msg'):
         self.msg = msg
@@ -16,68 +16,131 @@ def IDconvertor(Clothing_Genome_Project,Item_ID_Info):
         raise ImgException(Clothing_Genome_Project + ' not found')
     if(os.path.isfile(Item_ID_Info) == False):
         raise ImgException(Item_ID_Info + ' not found')
-    def findIDs(SearchWords,Genus_Species):
-        for GenusID,Species in Genus_Species.items():
-            for SpeciesName,SpeciesID in Species.items():
-                if any(word in SpeciesName for word in SearchWords):
-                    return GenusID,SpeciesID
-        return -1,-1
+    def findIDs(SearchWords,Dictionaries):
+        if SearchWords == None:
+            return -1,-1
+        maxRatio=0
+        maxStyleID=""
+        maxSubValue=""
+        for StyleID,subDictionary in Dictionaries.items():
+            for subKey,subValue in subDictionary.items():
+                if fuzz.ratio(str(SearchWords),subKey)>maxRatio:
+                    maxRatio = fuzz.ratio(SearchWords,subKey)
+                    maxSubValue=subValue
+                    maxStyleID=StyleID
+        return maxStyleID,maxSubValue
 
     Quantity=9 #main table column
     EWNumber = 0 #main table column
     GenusColumn=3 #main table column
     SpeciesColumn=4 #main table column
+    GenreColumnStart = 12 #Main table column
+    GenreColumnEnd = 18 #Main table column
     StyleGenreIDStartColumn = 6 #ID table column
     StyleGenreIDENDColumn = 9 #ID table column
-    GenreColumnStart = 12 #ID table column
-    GenreColumnEnd = 18 #ID table column
+    StyleSpeciesIDStartColumn = 10 #ID table column
+    StyleSpeciesIDEndColumn = 13 #ID table column
+    
     IInfo = pd.read_excel(Item_ID_Info)
     CGP = pd.read_excel(Clothing_Genome_Project)
-    Genus_Species={} # this is a dictionary which key is Stype Genre Genus ID, value is the Special ID
+    CGP.insert(3,'Style',None)
+    StyleColumn = 3
+    Quantity +=1
+    GenusColumn += 1
+    SpeciesColumn += 1
+    GenreColumnStart += 1
+    GenreColumnEnd += 1
+
+    #process Style,Genus and Species
+    Style_Genus = {} # this is a dictionary which key is Stype Genre Genus ID, value is the Special ID
     Genres = {}
+    Style_Species = {}
     for column in range(StyleGenreIDStartColumn,StyleGenreIDENDColumn+1): #store Genus ID into Genus_Species dictionary and create a entry
-                                                                          #which is general genus name
+                                                                       #which is general genus name
         GenusBlock = IInfo.iat[0,column]
-        GenusName = GenusBlock[:GenusBlock.find("=")]
-        GenusID = int(GenusBlock[GenusBlock.find("=")+1:])
-        Genus_Species[GenusID] = {}
-        Genus_Species[GenusID][GenusName] = GenusID 
-    
-    for column in range(0,len(Genus_Species)): #store all specific genus into Genus_Species
+        StyleName = GenusBlock[:GenusBlock.find("=")]
+        StyleID = int(GenusBlock[GenusBlock.find("=")+1:])
+        Style_Genus[StyleID] = {}
+        Style_Genus[StyleID][StyleName] = StyleID
+        
+    for column in range(StyleSpeciesIDStartColumn,StyleSpeciesIDEndColumn+1): #store Genus ID into Genus_Species dictionary and create a entry
+                                                                       #which is general genus name
+        SpeciesBlock = IInfo.iat[0,column]
+        StyleName = SpeciesBlock[:SpeciesBlock.find("=")]
+        StyleID = int(SpeciesBlock[SpeciesBlock.find("=")+1:])
+        Style_Species[StyleID] = {}
+        Style_Species[StyleID][StyleName] = StyleID
+        
+    for column in Style_Genus.keys(): #store all specific genus into Style_Genus and Style_Species
         for row in range(1,IInfo.shape[0]):
             if str(IInfo.iat[row,StyleGenreIDStartColumn+column]) =='nan':
                 break
             else:
                 Block = IInfo.iat[row,StyleGenreIDStartColumn+column]
+                GenusName = Block[:Block.find("=")]
+                GenusID = Block[Block.find("=") + 1:]
+                Style_Genus[column][GenusName] = GenusID
+        for row in range(1, IInfo.shape[0]):
+            if str(IInfo.iat[row,StyleSpeciesIDStartColumn+column]) == 'nan':
+                break
+            else:
+                Block = IInfo.iat[row,StyleSpeciesIDStartColumn+column]
                 SpeciesName = Block[:Block.find("=")]
-                SpeciesID=Block[Block.find("=")+1:]
-                Genus_Species[column][SpeciesName] =SpeciesID
+                SpeciesID = Block[Block.find("=") + 1:]
+                Style_Species[column][SpeciesName] = SpeciesID
 
     for row in range(1,CGP.shape[0]):
         Species = CGP.iat[row,SpeciesColumn]
         Genus = CGP.iat[row,GenusColumn]
-        SearchKeyWords=[]
+        #SearchKeyWords_Genus=[]
+        #SearchKeyWords_Species=[]
         if str(Species)=="nan" and str(Genus) == "nan":
             print("No Genus or Species at " + str(row))
             continue
         else: #separate all genus and species words and store into a SearchKeyWords list
-            
-            if str(Species) != 'nan':
-                SpeciesWords = Species.split(" ")
-                SearchKeyWords.append(Species)
-                for word in SpeciesWords:
-                    SearchKeyWords.append(word)
-            if str(Genus) != 'nan':
-                GenusWords = Genus.split(" ")
-                SearchKeyWords.append(Genus)
-                for word in GenusWords:
-                    SearchKeyWords.append(word)
-            print(SearchKeyWords)
-            GenusID, SpeciesID = findIDs(SearchKeyWords,Genus_Species)
-        if GenusID == -1 and SpeciesID == -1:
-            continue
-        CGP.iat[row,GenusColumn] = GenusID
-        CGP.iat[row,SpeciesColumn] = SpeciesID
+            #if str(Species) != 'nan':
+            #    SpeciesWords = Species.split(" ")
+            #    SearchKeyWords_Species.append(Species)
+            #    for word in SpeciesWords:
+            #        SearchKeyWords_Species.append(word)
+            #if str(Genus) != 'nan':
+            #    GenusWords = Genus.split(" ")
+            #    SearchKeyWords_Genus.append(Genus)
+            #    for word in GenusWords:
+            #        SearchKeyWords_Genus.append(word)
+
+            #StyleID01, GenusID = findIDs(SearchKeyWords_Genus,Style_Genus)
+            #StyleID02, SpeciesID = findIDs(SearchKeyWords_Species,Style_Species)
+            print(Genus)
+            print(Species)
+            StyleID01, GenusID = findIDs(str(Genus),Style_Genus)
+            StyleID02, SpeciesID = findIDs(str(Species),Style_Species)
+
+            if StyleID01 == -1 and StyleID02 == -1:
+                print("Can't find Style at" + str(row))
+                CGP.iat[row,StyleColumn]="Not Found"
+                continue
+            else:
+                if StyleID01 == StyleID02:
+                    CGP.iat[row,StyleColumn] = StyleID01
+                    CGP.iat[row,GenusColumn] = GenusID
+                    CGP.iat[row,SpeciesColumn] = SpeciesID
+                    continue
+                elif StyleID01 != -1:
+                    CGP.iat[row, StyleColumn] = StyleID01
+                    CGP.iat[row,GenusColumn] = GenusID
+                    CGP.iat[row,SpeciesColumn] = CGP.iat[row,SpeciesColumn]
+                    continue
+                elif StyleID02 == -1:
+                    CGP.iat[row, StyleColumn] = StyleID02
+                    CGP.iat[row,SpeciesColumn] = SpeciesID 
+
+    print(StyleID01)
+    print(StyleID02)
+    print(GenusID)
+    print(SpeciesID)
+
+    #process quantity
     for row in range(1,CGP.shape[0]):
         originRow=copy.deepcopy(CGP.loc[row])
         quantity = str(originRow.iat[Quantity]) 
